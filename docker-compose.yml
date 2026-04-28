@@ -1,0 +1,19 @@
+services:
+  jupyter:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: ds-uv-jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      # ホストのカレントディレクトリ全体をコンテナの/workにマウント
+      - .:/work
+      # コンテナ内の.venvを保護(ホストの.venvで上書きされないように)
+      - /work/.venv
+    env_file:
+      - .env.dev
+    working_dir: /work
+      # docker compose exec でコンテナ内のシェルに入る際に必要な設定
+    tty: true
+    stdin_open: true
